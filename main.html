@@ -8,7 +8,7 @@
         <style>
             body {
             font-family:Verdana, Geneva, Tahoma, sans-serif;
-            text-align: center;    
+            
         }
 
         canvas {
@@ -18,15 +18,38 @@
             background-color: bisque;
 		}
 
+        .container {
+            display: flex;
+            justify-content: flex-start;
+        }
+        .left {
+            width: 30%;
+            text-align: left;
+        }
+        .middle {
+            width: 40%;
+            text-align: center;
+        }
+
+
         </style>
         
     </head>
-
+    
     <body>
-        <h1>Hangman</h1>
-        <p id="mouse-position"></p>
-        <canvas id="canvas" width="1200" height="800"></canvas>
-        <script src="script.js"></script>
         
+        <div class ="container">
+            <div class="left">
+                <h1>Hangman</h1>
+                <p>Hello World</p>
+            </div>
+                <div class="middle">
+                    <h1>Play</h1>
+                    <canvas id="canvas" width="1200" height="800"></canvas>
+                    <script src="script.js"></script> 
+                    <p id="mouse-position"></p>
+                </div>
+        </div>
+
     </body>
 </html>

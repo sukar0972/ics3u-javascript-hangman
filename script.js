@@ -3,11 +3,9 @@
 Javascript Challenge
 */
 
-var canvas ;
-var context;
 
-canvas = document.getElementById("canvas");
-    
+const canvas = document.getElementById("canvas");
+const ctx = canvas.getContext("2d");
 let bound = canvas.getBoundingClientRect();
 
 let xOff = bound.left + window.scrollX;
@@ -23,7 +21,7 @@ window.onload = function() {
     canvas.height = 800;
     canvas.width = 1200;
 
-    context = canvas.getContext("2d");
+    
 
     mainMenu();
     showMousePos();
@@ -31,18 +29,23 @@ window.onload = function() {
 }
 
 function mainMenu() {
-        //Easy Button
-        context.fillStyle="black";
-        context.fillRect(500,500,200,75);
-        context.fillStyle="white";
-        context.fillRect(500+2,500+2,200-4,75-4);
-        
-        //Hard Button
-    
-        context.fillStyle="black";
-        context.fillRect(500,400,200,75);
-        context.fillStyle="white";
-        context.fillRect(500+2,400+2,200-4,75-4);
+        //Create the rectangles for the button
+        //Easy Button rect
+        ctx.fillStyle="black";
+        ctx.fillRect(500,500,200,75);
+        ctx.fillStyle="white";
+        ctx.fillRect(500+2,500+2,200-4,75-4);
+        //Hard Button rect
+        ctx.fillStyle="black";
+        ctx.fillRect(500,400,200,75);
+        ctx.fillStyle="white";
+        ctx.fillRect(500+2,400+2,200-4,75-4);
+        //Create the button text
+        ctx.fillStyle="black";
+        ctx.font = "36px arial";
+
+        ctx.fillText("Easy", 560, 450); //Text for the easy mode button
+        ctx.fillText("Hard", 560, 550); //Text for the hard mode button
 
         
 }
