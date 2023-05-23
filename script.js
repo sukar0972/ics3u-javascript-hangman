@@ -30,8 +30,29 @@ window.onload = function() {
 
 function mainMenu() {
 
+        //Create the rectangles for the button
+        //Easy Button rect
+        ctx.fillStyle="black";
+        ctx.fillRect(500,500,200,75);
+        ctx.fillStyle="white";
+        ctx.fillRect(500+2,500+2,200-4,75-4);
+        //Hard Button rect
+        ctx.fillStyle="black";
+        ctx.fillRect(500,400,200,75);
+        ctx.fillStyle="white";
+        ctx.fillRect(500+2,400+2,200-4,75-4);
+        //Create the button text
+        ctx.fillStyle="black";
+        ctx.font = "36px arial";
 
+        ctx.fillText("Easy", 560, 450); //Text for the easy mode button
+        ctx.fillText("Hard", 560, 550); //Text for the hard mode button
+
+        window.addEventListener("keydown", function (e) {
+            document.querySelector("p").innerHTML = `You pressed ${e.key}`;
+          }, false);
         
+
 }
 
 //Show the mouse Position
