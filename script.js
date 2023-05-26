@@ -29,36 +29,42 @@ window.onload = function() {
 }
 
 function mainMenu() {
-
-
+    var topColor = "blue";
+    var bottomColor = "white";
+    
 
         //Detect Keypresses
         document.onkeydown = function (e) {
-            var topColor = "blue";
-            var bottomColor = "white";
+
             console.log(e.key);
 
-            if(e.key == "ArrowUp" && bottomColor == "blue") {
-                topColor = "white";
-                bottomColor == "blue";
+            //Show which option is selected
+            if(e.key == "ArrowUp" && topColor == "white") {
+                topColor = "blue";
+                bottomColor = "white";
                 console.log("sd");
 
             } else if(e.key == "ArrowDown" && bottomColor == "white") {
-                topColor = "blue";
-                bottomColor == "white";
-                console.log("ssdd");
+                topColor = "white";
+                bottomColor = "blue";
+                console.log(bottomColor);
+            }
+
+            //
+            if(e.key == "Enter" || e.key == " ") {
+                console.log("Enter");
             }
 
         //Create the rectangles for the button
         //Easy Button rect
         ctx.fillStyle="black";
         ctx.fillRect(500,500,200,75);
-        ctx.fillStyle=topColor;
+        ctx.fillStyle=bottomColor;
         ctx.fillRect(500+2,500+2,200-4,75-4);
         //Hard Button rect
         ctx.fillStyle="black";
         ctx.fillRect(500,400,200,75);
-        ctx.fillStyle=bottomColor;
+        ctx.fillStyle=topColor;
         ctx.fillRect(500+2,400+2,200-4,75-4);
         //Create the button text
         ctx.fillStyle="black";
