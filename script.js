@@ -24,22 +24,41 @@ window.onload = function() {
     
 
     mainMenu();
-    showMousePos();
+    
     
 }
 
 function mainMenu() {
 
+
+
+        //Detect Keypresses
+        document.onkeydown = function (e) {
+            var topColor = "blue";
+            var bottomColor = "white";
+            console.log(e.key);
+
+            if(e.key == "ArrowUp" && bottomColor == "blue") {
+                topColor = "white";
+                bottomColor == "blue";
+                console.log("sd");
+
+            } else if(e.key == "ArrowDown" && bottomColor == "white") {
+                topColor = "blue";
+                bottomColor == "white";
+                console.log("ssdd");
+            }
+
         //Create the rectangles for the button
         //Easy Button rect
         ctx.fillStyle="black";
         ctx.fillRect(500,500,200,75);
-        ctx.fillStyle="white";
+        ctx.fillStyle=topColor;
         ctx.fillRect(500+2,500+2,200-4,75-4);
         //Hard Button rect
         ctx.fillStyle="black";
         ctx.fillRect(500,400,200,75);
-        ctx.fillStyle="white";
+        ctx.fillStyle=bottomColor;
         ctx.fillRect(500+2,400+2,200-4,75-4);
         //Create the button text
         ctx.fillStyle="black";
@@ -47,13 +66,18 @@ function mainMenu() {
 
         ctx.fillText("Easy", 560, 450); //Text for the easy mode button
         ctx.fillText("Hard", 560, 550); //Text for the hard mode button
+        
+        };
 
-        window.addEventListener("keydown", function (e) {
-            document.querySelector("p").innerHTML = `You pressed ${e.key}`;
-          }, false);
+
         
 
+
+
+
+        
 }
+
 
 //Show the mouse Position
 function showMousePos() {
@@ -67,7 +91,7 @@ function showMousePos() {
     const y = event.clientY;
 
     // Update the HTML with the mouse position
-    mousePosition.innerHTML = `Mouse position: (${x-xOff}, ${y-yOff})`;
+    //mousePosition.innerHTML = `Mouse position: (${x-xOff}, ${y-yOff})`;
     });
 }
 
