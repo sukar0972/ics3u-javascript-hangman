@@ -87,21 +87,29 @@ function easyMode(word) {
             //Display the letter the user wants to input
             ctx.fillText(userInput, 700, 450);
         }
+
+        //If the user wants to enter their specified letter
         if (e.key == "Enter") {
+
+            //Use the checkletters function to see if the letter appears and when
             guessResults = checkLetters(userInput, gameWord);
 
+                    //If the user won - guessed all 5 letters
+            if (guessResults[1] == 5) {
+                winner(10-lives);
+                return;
+            } else if (guessResults[0] === false) { //If the user got the letter wrong
+            
+                lives--; //Take a life away
+                showLivesScore(lives, score); //Update the scoreboard
+
+             }
         }
         
-        if (guessResults[0] === true && guessResults[1] ==5) {
-            winner();
-
-        } else if (guessResults[0] === false) {
-            lives--;
-            showLivesScore(lives, score);
-
-        }
 
 
+
+        //Depending on how many attempts they have, keep adding parts of the hangman
         if(lives == 9) {
             drawGallow();
         } else if(lives == 8) {
@@ -198,7 +206,7 @@ function showLivesScore(lives, score) {
 }
 
 
-function winner() {
+function winner(attempts) {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.fillStyle = "green";
     ctx.fillRect(0, 0, 1200, 1200);
@@ -206,8 +214,8 @@ function winner() {
 
     ctx.fillStyle = "white";
     ctx.font = "68px arial";
-    ctx.fillText("Game Over!", 780, 450);
-    ctx.fillText("s", 780, 550);
+    ctx.fillText("Nice Job!", 420, 450);
+    ctx.fillText("You did it in just "+attempts+" attempts", 380, 550);
 }
 
 function gameOver(word) {
@@ -218,8 +226,8 @@ function gameOver(word) {
 
     ctx.fillStyle = "red";
     ctx.font = "68px arial";
-    ctx.fillText("Game Over!", 780, 450);
-    ctx.fillText(word, 780, 550);
+    ctx.fillText("Game Over!", 420, 450);
+    ctx.fillText(word, 450, 600);
 }
 
 function drawGallow() {
