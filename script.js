@@ -17,9 +17,13 @@ var words = ["which", "there", "their", "about", "would", "these", "other", "wor
 
 //Do this when the window first loads
 window.onload = function () {
-    canvas.height = 800;
-    canvas.width = 1200;
+
+    //Set the dimensions of the canvas to 1200x800
+    canvas.height = 800; canvas.width = 1200;
+    //Generate a random word to play with
     let word = generateRandomWord();
+
+    //Start the game
     easyMode(word);
 
     showMousePos();
@@ -31,10 +35,14 @@ function generateRandomWord() {
     return word;
 }
 
+
 function easyMode(word) {
     console.log(word);
+
+    //Turn the randomly generated word into an array with each of its characters becoming an element; "word" becomes ["w","o","r","d"]
     let gameWord = word.split("");
 
+    //Initiate the canvas
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.fillStyle = "white";
     ctx.fillRect(0, 0, 1200, 1200);
@@ -43,6 +51,7 @@ function easyMode(word) {
     ctx.fillStyle = "black";
     ctx.font = "68px arial";
 
+    //Draw the underlines of the word
     for (i = 0; i < 5; i++) {
         ctx.lineWidth = 5;
         ctx.beginPath();
@@ -51,70 +60,78 @@ function easyMode(word) {
         ctx.stroke();
     }
 
-
-
+    //Initiate Variables
     var userInput = "";
     var score = 0;
-    var lives = 5;
+    var lives = 10;
     var lettersGuessed = 0;
+    let guessResults = [];
+    
+    //Show the score and lives left in the top corner
     showLivesScore(lives, score);
 
-    drawGallow();
+
+    //On keypress
     document.onkeydown = function (e) {
-
-
-
         ctx.fillStyle = "white";
         ctx.fillRect(684, 387, 70, 200)
         ctx.fillStyle = "blue";
 
+
+        //If the selected key is a valid letter (not a modifier, etc)
         if (alphabet.includes(e.key)) {
+
+            //User input is the letter forced lowercase
             userInput = e.key.toLowerCase();
+
+            //Display the letter the user wants to input
             ctx.fillText(userInput, 700, 450);
         }
         if (e.key == "Enter") {
-            var correctGuess = checkLetters(userInput, gameWord);
-        }
-        if (correctGuess == true) {
+            guessResults = checkLetters(userInput, gameWord);
 
-        } else if (correctGuess == false) {
+        }
+        
+        if (guessResults[0] === true && guessResults[1] ==5) {
+            winner();
+
+        } else if (guessResults[0] === false) {
             lives--;
             showLivesScore(lives, score);
+
         }
 
-        if(lives == 0) {
+
+        if(lives == 9) {
+            drawGallow();
+        } else if(lives == 8) {
+            drawHead();
+        } else if(lives == 7) {
+            drawBody();
+        } else if(lives == 6) {
+            drawLegOne();
+        } else if(lives == 5) {
+            drawLegTwo();
+        } else if(lives == 4) {
+            drawHead();
+        }else if(lives == 3) {
+            drawArmOne();
+        } else if(lives == 2) {
+            drawArmTwo();
+        } else if(lives == 1) {
+            drawFace();
+        } else if(lives<=0) {
             gameOver(word);
         }
     }
-
-
-function showLivesScore(lives, score) {
-        //Show Lives
-        ctx.fillStyle = "white";
-        ctx.fillRect(950, 00, 50, 50);
-        ctx.font = "48px arial";
-        ctx.fillStyle = "red";
-        ctx.fillText("Lives:", 700, 50);
-        ctx.fillText(lives, 950, 50);
-        ctx.font = "68px arial";
-
-        //Show Score
-        ctx.fillStyle = "white";
-        ctx.fillRect(950 - 400, 00, 50, 50);
-        ctx.font = "48px arial";
-        ctx.fillStyle = "green";
-        ctx.fillText("Score:", 700 - 400, 50);
-        ctx.fillText(score, 950 - 400, 50);
-        ctx.font = "68px arial";
-    }
-
-
 }
 var lettersGuessed = 0;
 let wrongLetters = [], exclusiveWrongLetters = [];
+
 function checkLetters(userInput, gameWord) {
     let letterPos = [];
-
+    var correctGuess = [false,0];
+    
     //If the user inputted guess is a valid character
     //Show the word they are trying to guess
 
@@ -128,6 +145,10 @@ function checkLetters(userInput, gameWord) {
             if (gameWord[i] === userInput) {
                 letterPos.push(i);
                 lettersGuessed++;
+                correctGuess[1] = lettersGuessed;
+                correctGuess[0] = true;
+                
+                
                 //Draw the letter on the canvas
                 ctx.fillText(gameWord[letterPos], 675 + letterPos * 75, 200);
                 //If there are multiple occurences of the same letter
@@ -136,28 +157,69 @@ function checkLetters(userInput, gameWord) {
                     var secondOc = letterPos[1];
                     ctx.fillText(gameWord[secondOc], 675 + secondOc * 75, 200);
                 }
+
             }
 
         }
     } else {
+        correctGuess[0] = false;
         wrongLetters.push(userInput);
         for (var i = 0; i < wrongLetters.length; i++) {
             if (exclusiveWrongLetters.indexOf(wrongLetters[i]) === -1) {
                 exclusiveWrongLetters.push(wrongLetters[i]);
+                
             }
         }
         ctx.fillText(exclusiveWrongLetters, 780, 450);
-        return false;
+        
+        
     }
-
+    console.log(correctGuess);
+    return correctGuess;
 }
+function showLivesScore(lives, score) {
+    //Show Lives
+    ctx.fillStyle = "white";
+    ctx.fillRect(950, 00, 50, 50);
+    ctx.font = "48px arial";
+    ctx.fillStyle = "red";
+    ctx.fillText("Lives:", 700, 50);
+    ctx.fillText(lives, 950, 50);
+    ctx.font = "68px arial";
+
+    //Show Score
+    ctx.fillStyle = "white";
+    ctx.fillRect(950 - 400, 00, 50, 50);
+    ctx.font = "48px arial";
+    ctx.fillStyle = "green";
+    ctx.fillText("Score:", 700 - 400, 50);
+    ctx.fillText(score, 950 - 400, 50);
+    ctx.font = "68px arial";
+}
+
 
 function winner() {
-    console.log("Winner");
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = "green";
+    ctx.fillRect(0, 0, 1200, 1200);
+
+
+    ctx.fillStyle = "white";
+    ctx.font = "68px arial";
+    ctx.fillText("Game Over!", 780, 450);
+    ctx.fillText("s", 780, 550);
 }
 
-function gameOver() {
-    console.log("Game Over!");
+function gameOver(word) {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = "black";
+    ctx.fillRect(0, 0, 1200, 1200);
+
+
+    ctx.fillStyle = "red";
+    ctx.font = "68px arial";
+    ctx.fillText("Game Over!", 780, 450);
+    ctx.fillText(word, 780, 550);
 }
 
 function drawGallow() {
@@ -179,8 +241,7 @@ function drawGallow() {
     ctx.moveTo(450, 200);
     ctx.lineTo(450, 255);
     ctx.stroke();
-    drawHead();
-    drawFace();
+
 
 }
 
@@ -191,7 +252,7 @@ function drawHead() {
     ctx.stroke();
 }
 
-function drawFace() {
+function drawFace(mood) {
     ctx.beginPath();
     ctx.arc(435, 290, 5, 0, 2 * Math.PI, true); // left eye
     ctx.fillStyle = 'black';
@@ -202,13 +263,71 @@ function drawFace() {
     ctx.fillStyle = 'black';
     ctx.fill();
     
-    ctx.beginPath();
-    ctx.arc(450, 330, 20, Math.PI, 2 * Math.PI, false); // mouth
-    ctx.lineWidth = 2;
-    ctx.strokeStyle = 'black';
-    ctx.stroke();
+    if(mood == 0) {
+        ctx.beginPath();
+        ctx.arc(450, 330, 20, Math.PI, 2 * Math.PI, false); // mouth
+        ctx.lineWidth = 2;
+        ctx.strokeStyle = "black";
+        ctx.stroke();
+    } else {
+        ctx.beginPath();
+        ctx.moveTo(430, 315); // start point of the mouth
+        ctx.lineTo(470, 315); // end point of the mouth
+        ctx.lineWidth = 2;
+        ctx.strokeStyle = "black";
+        ctx.stroke();
+        
+    }
+
 }
 
+function drawBody() {
+    ctx.lineWidth = 5;
+    ctx.beginPath();
+    ctx.moveTo(450,350);
+    ctx.lineTo(450,500);
+    ctx.stroke();
+
+}
+
+function drawArmOne() {
+    ctx.lineWidth = 5;
+    ctx.beginPath();
+    ctx.arc(450, 300, 50, 0, 2 * Math.PI, true);
+    ctx.moveTo(450,400);
+    ctx.lineTo(420,420);
+    ctx.stroke();
+
+}
+
+function drawArmTwo() {
+    ctx.lineWidth = 5;
+    ctx.beginPath();
+    ctx.arc(450, 300, 50, 0, 2 * Math.PI, true);
+    ctx.moveTo(450,400);
+    ctx.lineTo(480,420);
+    ctx.stroke();
+
+}
+
+function drawLegOne() {
+    ctx.lineWidth = 5;
+    ctx.beginPath();
+    ctx.arc(450, 300, 50, 0, 2 * Math.PI, true);
+    ctx.moveTo(450,500);
+    ctx.lineTo(420,520);
+    ctx.stroke();
+    
+}
+
+function drawLegTwo() {
+    ctx.lineWidth = 5;
+    ctx.beginPath();
+    ctx.arc(450, 300, 50, 0, 2 * Math.PI, true);
+    ctx.moveTo(450,500);
+    ctx.lineTo(480,520);
+    ctx.stroke();
+}
 
 
 //Show the mouse Position
