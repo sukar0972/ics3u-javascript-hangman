@@ -1,6 +1,4 @@
 # ics3u-javascript-hangman
-Hangman game made in Javascript
+Hangman game made in Javascript:
 
-Easy Mode: 2 five letter words
-
-Hard Mode 5 five letter wordsgit 
+Enter a letter and press enter to see if you are correct!
