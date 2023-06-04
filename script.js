@@ -120,15 +120,15 @@ function easyMode(word) {
             //If the user won - guessed all 5 letters
             if (guessResults[1] == 5) {
 
-                //Less attempts 
-                winner(9+attempts);
-                return;
+               
+                winner(attempts);
+                
             } else if (guessResults[0] === false) { //If the user got the letter wrong
                 lives--; //Take a life away
                 showLivesScore(lives); //Update the scoreboard
              }
-             //The number of attempts is amount of words they guessed minus the lives and number of letters
-             attempts = (6-guessResults[1]-lives);
+             //The number of attempts is the amount of lives they used
+             attempts = (11-lives);
         }
         
 
