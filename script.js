@@ -110,7 +110,7 @@ function easyMode(word) {
         }
         
 
-        drawHangman(lives,word);
+        
         //If the user wants to enter their specified letter. They can only guess while the game is still running 
         if (e.key == "Enter" && guessResults[1]!=gameWord.length && lives>0) {
 
@@ -128,8 +128,10 @@ function easyMode(word) {
              //The number of attempts is the amount of lives they used
              attempts = (11-lives);
         }
-        
-            
+
+        if(guessResults[1]!=gameWord.length) {
+        drawHangman(lives,word);
+        }
 
     }
 }
